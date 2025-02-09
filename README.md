@@ -37,7 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## .env file configuration
 You will need 4 variables to store the key values. These are as follows:
+
 MONGODB_URI
+
 NEXTAUTH_SECRET
+
 RESEND_API_KEY
+
 GOOGLE_API_KEY
