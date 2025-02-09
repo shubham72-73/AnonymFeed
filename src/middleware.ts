@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
     } else {
         // Redirect unauthenticated users trying to access protected routes
         if (url.pathname.startsWith('/dashboard')) {
-            return NextResponse.redirect(new URL('/home', request.url));
+            return NextResponse.redirect(new URL('/', request.url));
         }
     }
 
