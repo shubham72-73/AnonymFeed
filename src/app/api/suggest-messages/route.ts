@@ -33,7 +33,7 @@ export async function POST(req: Request) {
       throw new Error("Missing GOOGLE_API_KEY environment variable.");
     }
 
-    const apiResponse = await axios.post<ApiResponse>( // Type the response
+    const apiResponse = await axios.post<ApiResponse>(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
       {
         contents: [{
@@ -52,13 +52,13 @@ export async function POST(req: Request) {
     );
 
     const data = apiResponse.data;
-    console.log("Raw API Response:", data);
+    console.log("Raw API Response backend:", data);
 
     if (data.candidates && data.candidates.length > 0) {
       const suggestions: string[] = [];
-      data.candidates.forEach((candidate: Candidate) => { // Explicitly type candidate
+      data.candidates.forEach((candidate: Candidate) => {
         if (candidate.content && candidate.content.parts) {
-          candidate.content.parts.forEach((part: Part) => { // Explicitly type part
+          candidate.content.parts.forEach((part: Part) => {
             suggestions.push(part.text);
           });
         }

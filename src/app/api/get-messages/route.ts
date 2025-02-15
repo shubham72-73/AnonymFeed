@@ -27,12 +27,12 @@ export async function GET(request: Request) {
   try {
     const user = await UserModel.aggregate([
       { $match: { _id: userId } }, // Match `_id` correctly
-      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } }, // Unwind messages safely
-      { $sort: { "messages.createdAt": -1 } }, // Sort by createdAt
+      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } }, 
+      { $sort: { "messages.createdAt": -1 } }, 
       {
         $group: {
           _id: "$_id",
-          messages: { $push: "$messages" }, // Correct field name
+          messages: { $push: "$messages" }, 
         },
       },
     ]);
