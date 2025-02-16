@@ -24,7 +24,8 @@ const Navbar = () => {
         {
             session?(
                 <>
-                    <span className='mr-4'>Welcome, {user?.username || user?.email}</span>
+                    <Button variant="outline" className='w-full md:w-auto' onClick={()=>router.replace('/dashboard')}>{user?.username || user?.email}</Button>
+                    {/* <span className='mr-4'>Welcome, {user?.username || user?.email}</span> */}
                     <Button className='w-full md:w-auto' onClick={()=>handleSignOut()}>Logout</Button>
                 </>
             ):(
