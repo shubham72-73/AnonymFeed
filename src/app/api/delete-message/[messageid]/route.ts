@@ -4,47 +4,29 @@ import { User } from "next-auth";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user";
 
-export async function DELETE(request: Request, {params}: {params: {messageid: string}}){
-    const messageId = params.messageid
+export async function DELETE(request: Request, context: { params: { messageid: string } }) {
+    const { messageid } = context.params;
     await dbConnect();
     const session = await getServerSession(authOptions);
-    const user:User = session?.user as User
+    const user: User = session?.user as User;
 
-    if(!session || !session.user){
-        return Response.json(
-            {
-                success: false,
-                message: 'Not Authenticated'
-            },{status: 401}
-        )
+    if (!session || !session.user) {
+        return new Response(JSON.stringify({ success: false, message: "Not Authenticated" }), { status: 401 });
     }
+
     try {
         const updateResult = await UserModel.updateOne(
-            {_id: user._id},
-            {$pull: {messages: {_id: messageId}}}
-        )
-        if(updateResult.modifiedCount == 0){
-            return Response.json(
-                {
-                    success: false,
-                    message: 'Message not found or already deleted'
-                },{status: 404}
-            )
+            { _id: user._id },
+            { $pull: { messages: { _id: messageid } } }
+        );
+
+        if (updateResult.modifiedCount === 0) {
+            return new Response(JSON.stringify({ success: false, message: "Message not found or already deleted" }), { status: 404 });
         }
-        return Response.json(
-            {
-                success: true,
-                message: 'Message deleted'
-            },
-            {status: 200}
-        )
+
+        return new Response(JSON.stringify({ success: true, message: "Message deleted" }), { status: 200 });
     } catch (error) {
-        console.log('Error in deleting message route', error)
-        return Response.json(
-            {
-                success: false,
-                message: 'Error deleting message'
-            },{status: 500}
-        )
+        console.error("Error in deleting message route", error);
+        return new Response(JSON.stringify({ success: false, message: "Error deleting message" }), { status: 500 });
     }
 }
