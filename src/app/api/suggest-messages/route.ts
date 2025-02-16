@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     );
 
     const data = apiResponse.data;
-    console.log("Raw API Response backend:", data);
+    // console.log("Raw API Response backend:", data);
 
     if (data.candidates && data.candidates.length > 0) {
       const suggestions: string[] = [];
