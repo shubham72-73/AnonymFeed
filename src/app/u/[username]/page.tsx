@@ -2,7 +2,7 @@
 
 import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { messageSchema } from '@/schemas/messageSchema';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
@@ -14,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
 export default function PublicProfile() {
-  // const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof messageSchema>>({
