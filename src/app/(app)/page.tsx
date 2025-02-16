@@ -17,8 +17,8 @@ const Home = () => {
     <>
     <main className='flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12'>
       <section className='text-center'>
-        <h1 className='text-3xl md:text-5xl font-bold'>Dive into the world of Anonymous Conversations</h1>
-        <p className='mt-3 md:mt-4 text-base md:text-lg'>Explore Mystry Message</p>
+        <h1 className='text-3xl md:text-5xl font-bold'>Secrets, Feedback, Confessions — Delivered Anonymously!</h1>
+        <p className='mt-3 md:mt-4 text-base md:text-lg'>Explore AnonymFeeds</p>
       </section>
       <Carousel
       opts={{
@@ -50,7 +50,7 @@ const Home = () => {
       <CarouselNext />
     </Carousel>
     </main>
-    <footer className="text-center p-4 md:p-6">&copy; 2025 AnonymFeed. All rights reserved.</footer>
+    <footer className="text-center p-4 md:p-6">&copy; 2025 AnonymFeeds. All rights reserved.</footer>
     </>
   )
 }
