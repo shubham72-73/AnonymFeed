@@ -3,58 +3,48 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user";
-import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: NextRequest) {
-    // Extract the messageid from the URL
-    const url = new URL(request.url);
-    const messageid = url.pathname.split("/")[4]; // Assuming the dynamic segment is the 4th part of the URL
-
+export async function DELETE(request: Request, {params}: {params: {messageid: string}}){
+    const messageId = params.messageid
     await dbConnect();
     const session = await getServerSession(authOptions);
-    const user: User = session?.user as User;
+    const user:User = session?.user as User
 
-    if (!session || !session.user) {
-        return NextResponse.json(
+    if(!session || !session.user){
+        return Response.json(
             {
                 success: false,
                 message: 'Not Authenticated'
-            }, 
-            { status: 401 }
-        );
+            },{status: 401}
+        )
     }
-
     try {
         const updateResult = await UserModel.updateOne(
-            { _id: user._id },
-            { $pull: { messages: { _id: messageid } } }
-        );
-
-        if (updateResult.modifiedCount === 0) {
-            return NextResponse.json(
+            {_id: user._id},
+            {$pull: {messages: {_id: messageId}}}
+        )
+        if(updateResult.modifiedCount == 0){
+            return Response.json(
                 {
                     success: false,
                     message: 'Message not found or already deleted'
-                },
-                { status: 404 }
-            );
+                },{status: 404}
+            )
         }
-
-        return NextResponse.json(
+        return Response.json(
             {
                 success: true,
                 message: 'Message deleted'
             },
-            { status: 200 }
-        );
+            {status: 200}
+        )
     } catch (error) {
-        console.log('Error in deleting message route', error);
-        return NextResponse.json(
+        console.log('Error in deleting message route', error)
+        return Response.json(
             {
                 success: false,
                 message: 'Error deleting message'
-            },
-            { status: 500 }
-        );
+            },{status: 500}
+        )
     }
 }
