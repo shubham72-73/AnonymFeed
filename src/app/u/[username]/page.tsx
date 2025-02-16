@@ -2,7 +2,7 @@
 
 import { Form, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { messageSchema } from '@/schemas/messageSchema';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks/use-toast';
@@ -14,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
 export default function PublicProfile() {
-  // const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof messageSchema>>({
@@ -23,7 +22,6 @@ export default function PublicProfile() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const [userInput, setUserInput] = useState('');
 
   const getSuggestions = async () => {
     setLoading(true);
@@ -31,7 +29,7 @@ export default function PublicProfile() {
     setSuggestions([]);
 
     try {
-      const response = await axios.post('/api/suggest-messages', { });
+      const response = await axios.post('/api/suggest-messages', {});
       const data = response.data;
 
       if (Array.isArray(data) && data.length > 0) {
@@ -40,7 +38,7 @@ export default function PublicProfile() {
       } else {
         setSuggestions(['No suggestions available.']);
       }
-    } catch (error: any) {
+    } catch (error: AxiosError<ApiResponse>) {
       setError(error.response?.data?.error || error.message || 'Failed to get suggestions');
     } finally {
       setLoading(false);
