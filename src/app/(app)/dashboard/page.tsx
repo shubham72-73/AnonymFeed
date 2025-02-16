@@ -11,7 +11,6 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
-// import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -98,7 +97,7 @@ const Page = () => {
   };
 
   const username = session?.user?.username || "";
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const baseUrl = `https://anonymfeeds.netlify.app`;
   const profileUrl = username ? `${baseUrl}/u/${username}` : "";
 
   const copyToClipboard = () => {
