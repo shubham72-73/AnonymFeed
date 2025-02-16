@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 
 export default function PublicProfile() {
-  const router = useRouter();
+  // const router = useRouter();
   const params = useParams<{ username: string }>();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof messageSchema>>({
@@ -23,7 +23,7 @@ export default function PublicProfile() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userInput, setUserInput] = useState('');
+  // const [userInput, setUserInput] = useState('');
 
   const getSuggestions = async () => {
     setLoading(true);
@@ -31,7 +31,7 @@ export default function PublicProfile() {
     setSuggestions([]);
 
     try {
-      const response = await axios.post('/api/suggest-messages', { userInput });
+      const response = await axios.post('/api/suggest-messages', { });
       const data = response.data;
 
       if (Array.isArray(data) && data.length > 0) {
@@ -62,7 +62,7 @@ export default function PublicProfile() {
         title: 'Success',
         description: response.data.message,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
         title: 'Unable to send message',

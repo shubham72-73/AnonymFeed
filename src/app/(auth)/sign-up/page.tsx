@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -26,7 +26,7 @@ const page = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  //zod implementation
+  // Zod implementation
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -40,13 +40,12 @@ const page = () => {
     const checkUsernameUnique = async () => {
       if (username) {
         setIsCheckingUsername(true);
-        setUsernameMessage('');
+        setUsernameMessage("");
         try {
           const response = await axios.get(
             `/api/check-username-unique?username=${username}`
           );
-          let message = response.data.message
-          setUsernameMessage(message);
+          setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
@@ -59,6 +58,7 @@ const page = () => {
     };
     checkUsernameUnique();
   }, [username]);
+
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
@@ -68,18 +68,19 @@ const page = () => {
         description: response.data.message,
       });
       router.replace(`/verify/${username}`);
-      setIsSubmitting(false);
     } catch (error) {
       console.error("Error in Signup of User");
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
       toast({
         title: "Signup Failed",
-        description: errorMessage,
+        description: axiosError.response?.data.message,
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -98,13 +99,25 @@ const page = () => {
                 <FormItem>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} onChange={(e)=>{
-                      field.onChange(e)
-                      debounced(e.target.value)
-                    }}/>
+                    <Input
+                      placeholder="Username"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        debounced(e.target.value);
+                      }}
+                    />
                   </FormControl>
-                    {isCheckingUsername && <Loader2 className="animate-spin"/>}
-                    <p className={`text-sm ${usernameMessage==="Username is unique" ? 'text-green-500':'text-red-500'}`}>{usernameMessage}</p>
+                  {isCheckingUsername && <Loader2 className="animate-spin" />}
+                  <p
+                    className={`text-sm ${
+                      usernameMessage === "Username is unique"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {usernameMessage}
+                  </p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -136,20 +149,23 @@ const page = () => {
               )}
             />
             <Button type="submit" disabled={isSubmitting}>
-              {
-                isSubmitting ? (
-                  <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait
-                  </>
-                ) : ('Signup')
-              }
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please Wait
+                </>
+              ) : (
+                "Signup"
+              )}
             </Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">Sign in</Link>
+            Already a member?{" "}
+            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+              Sign in
+            </Link>
           </p>
         </div>
       </div>
@@ -157,4 +173,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

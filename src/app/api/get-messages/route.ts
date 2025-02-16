@@ -6,7 +6,7 @@ import UserModel from "@/model/user";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
   try {
     const user = await UserModel.aggregate([
-      { $match: { _id: userId } }, // Match `_id` correctly
+      { $match: { _id: userId } }, 
       { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } }, 
       { $sort: { "messages.createdAt": -1 } }, 
       {

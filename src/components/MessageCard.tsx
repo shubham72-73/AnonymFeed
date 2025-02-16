@@ -1,10 +1,9 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"; // Removed CardDescription
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,10 +43,9 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     onMessageDelete(message._id);
   };
 
-
-  function formatDate(dateString : Date) {
+  function formatDate(dateString: Date) {
     const date = new Date(dateString);
-  
+
     const day = date.getUTCDate();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -55,14 +53,12 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     const month = monthNames[date.getUTCMonth()];
     const year = date.getUTCFullYear();
 
-    let hours = date.getUTCHours();
-    let minutes = date.getUTCMinutes();
+    const hours = date.getUTCHours(); // Changed from let to const
+    const minutes = date.getUTCMinutes(); // Changed from let to const
 
     const formattedHours = hours < 10 ? '0' + hours : hours;
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
     const utcTime: string = `${formattedHours}:${formattedMinutes}`;
-
-    // const utcTime: TimeRanges = `${hours}:${minutes}`
 
     function formatUTCTimeToLocalAMPM(utcTimeString: string) {
       const utcDate = new Date(`1970-01-01T${utcTimeString}Z`);
@@ -73,9 +69,9 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
       };
       return utcDate.toLocaleTimeString([], localTimeOptions);
     }
-    
-    const localTime = formatUTCTimeToLocalAMPM(utcTime)
-  
+
+    const localTime = formatUTCTimeToLocalAMPM(utcTime);
+
     return `${day} ${month} ${year} ${localTime}`;
   }
 

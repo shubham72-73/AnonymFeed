@@ -19,7 +19,7 @@ async function dbConnect(): Promise<void> {
         console.log(process.env.MONGODB_URI)
         
     } catch (error) {
-        console.log("Database Connection Failed");
+        console.log("Database Connection Failed", error);
         process.exit(1);
     }
 }

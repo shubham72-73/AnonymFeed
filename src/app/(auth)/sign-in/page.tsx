@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 
-const page = () => {
+const Page = () => { 
   const { toast } = useToast();
   const router = useRouter();
 
@@ -26,25 +26,25 @@ const page = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       redirect: false,
       identifier: data.identifier,
-      password: data.password
-    })
+      password: data.password,
+    });
 
-    if(result?.error){
+    if (result?.error) {
       toast({
         title: "Login Failed",
         description: "Incorrect username or password",
-        variant: "destructive"
-      })
+        variant: "destructive",
+      });
     }
 
-    if(result?.url){
-      router.replace('/dashboard')
+    if (result?.url) {
+      router.replace("/dashboard");
     }
-
   };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -82,15 +82,15 @@ const page = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">
-              Signin
-            </Button>
+            <Button type="submit">Signin</Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Not registered?{' '}
-            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">Sign up</Link>
+            Not registered?{" "}
+            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+              Sign up
+            </Link>
           </p>
         </div>
       </div>
@@ -98,4 +98,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
