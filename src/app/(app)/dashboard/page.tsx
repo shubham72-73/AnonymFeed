@@ -97,7 +97,7 @@ const Page = () => {
   };
 
   const username = session?.user?.username || "";
-  const baseUrl = `https://anonymfeeds.netlify.app`;
+  const baseUrl = `https://anonymfeeds.vercel.app`;
   const profileUrl = username ? `${baseUrl}/u/${username}` : "";
 
   const copyToClipboard = () => {
